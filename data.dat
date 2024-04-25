@@ -1,0 +1,71 @@
+/*********************************************
+ * OPL 22.1.0.0 Data
+ * Author: robbi
+ * Creation Date: Nov 8, 2023 at 1:42:33 PM
+ *********************************************/
+//Sets and indices
+Tmax=24; //Hours in a day
+TSmax=3;
+Smax=2; //Number of Stages
+Dmax=365; //Number of days in a year
+Nmax=18; //Set of representative days
+CapMaxBA=10; //KW - Adjusted for realistic battery capacity .. was 10
+CapMaxSHST=10; //KW - Adjusted for realistic hydrogen storage capacity .. was 10
+CapMaxPV=1000000; //KW - Adjusted for a more realistic solar PV capacity
+CapMaxWind=10; //KW - Adjusted for a more realistic wind turbine capacity .. was 5
+Ir=0.05; //Interest rate - Slightly increased to reflect current economic conditions
+PenaltyElectricity=0.01; //Unit penalty cost of non-served electricity load - Increased to emphasize reliability
+PenaltyHydrogen=0.03; //Unit penalty cost of non-served hydrogen load - Increased to emphasize reliability 0.25
+ElectrolyzersAvailable=6; // Increased available electrolyzers for scalability
+DeviceIndex=4;
+nbOfScenarios=4;
+Kmax=6; //Units available to buy for each device
+hprice1=0.385; //0.385
+eprice1=0.289;
+budgetHN= 10000000;	
+budgetStages= 20000000;
+CapPV0 = 1500;
+CapWT0 = 1;
+
+ElectrolyzerParams = <"PTH1", 3, 5000, 600, 150, 0.05, 0.9, 0.5, 400000, 0.01, 0.005, 0.9>; //1 MW electrolyser
+
+PVParams = <"PV1", 3, 500, 0.005, 0.003, 0.8>; //Value in square meters
+
+WindParams = <"WT1", 3, 1500000, 0.01, 0.005, 0.9, 0.0002, 40>; //1.5 MW wind turbine
+
+HydrogenTankParams = <"SHST1", 3, 10000, 0.95, 0.1, 300000, 0.008, 0.006>;
+
+BatteryParams = <"BA1", 3, 2060, 0.9, 0.1, 100000, 0.008, 0.006>;
+
+SheetConnection Test("generated_data.csv");
+SheetConnection Test2("realised_uncertainties.csv");
+SheetConnection Test3("solution_file.xlsx");
+Stage from SheetRead(Test ,"generated_data!A2:A1297");
+Day from SheetRead(Test ,"generated_data!B2:B1297");
+Time from SheetRead(Test ,"generated_data!C2:C1297");
+PvOutput from SheetRead(Test ,"generated_data!D2:D1297");
+WindOutput from SheetRead(Test ,"generated_data!E2:E1297");
+ElectricityLoad from SheetRead(Test ,"generated_data!F2:F1297");
+HydrogenLoad from SheetRead(Test ,"generated_data!G2:G1297");
+ElectricityPrice from SheetRead(Test ,"generated_data!H2:H1297");
+ruPVWT from SheetRead(Test2 ,"realised_uncertainties!B2:C5");
+ruPTH from SheetRead(Test2 ,"realised_uncertainties!E2:F5");
+ruBASHST from SheetRead(Test2 ,"realised_uncertainties!H2:I5");
+ruELOAD from SheetRead(Test2 ,"realised_uncertainties!K2:L5");
+ruHLOAD from SheetRead(Test2 ,"realised_uncertainties!N2:O5");
+q from SheetRead(Test2 ,"realised_uncertainties!Q2:Q5");
+hprice from SheetRead(Test2 ,"realised_uncertainties!S2:T5");
+eprice from SheetRead(Test2 ,"realised_uncertainties!V2:W5");
+
+/*
+// Writing to excel file
+CapPV1 to SheetWrite(Test3 ,"Sheet1!A2");
+CapWT1 to SheetWrite(Test3 ,"Sheet1!A3");
+CapBA1 to SheetWrite(Test3 ,"Sheet1!A4");
+CapSHST1 to SheetWrite(Test3 ,"Sheet1!A5");
+addCapPV1 to SheetWrite(Test3 ,"Sheet1!A6");
+addCapWT1 to SheetWrite(Test3 ,"Sheet1!A7");
+le1 to SheetWrite(Test3 ,"Sheet2!A1:D24");
+lh1 to SheetWrite(Test3 ,"Sheet3!A1:D24");
+zpth1 to SheetWrite(Test3 ,"Sheet4!A1:A10");
+*/
